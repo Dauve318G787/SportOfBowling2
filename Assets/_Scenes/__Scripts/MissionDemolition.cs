@@ -58,7 +58,7 @@ public class MissionDemolition : MonoBehaviour {
         castle.transform.position = castlePos;
 
         // Reset goalMet flag
-        Goal.goalMet = false;
+        // Goal.goalMet = false;
 
         UpdateGUI();
 
@@ -86,13 +86,13 @@ public class MissionDemolition : MonoBehaviour {
         }
 
         // Check for level end
-        if ((mode == GameMode.playing) && Goal.goalMet ) {
-            mode = GameMode.levelEnd;
+        // if ((mode == GameMode.playing) && Goal.goalMet ) {
+        //     mode = GameMode.levelEnd;
 
-            FollowCam.SWITCH_VIEW( FollowCam.eView.both );
+        //     FollowCam.SWITCH_VIEW( FollowCam.eView.both );
             
-            Invoke("NextLevel", 2f);
-        }
+        //     Invoke("NextLevel", 2f);
+        // }
     }
 
     // Brings player to next level
