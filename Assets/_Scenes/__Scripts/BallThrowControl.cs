@@ -3,60 +3,64 @@ using UnityEngine;
 public class BallThrowControl : MonoBehaviour
 {
     private Rigidbody rb;
-    private bool isDragging = false;   // Flag to check if we're dragging the ball
-    private Vector3 startPosition;     // Starting position of the ball
-    private Vector3 mouseOffset;       // Offset to make the drag feel smoother
-
-    public float throwForce = 10f; // Force applied when the ball is released
+    private bool isDragging = false;
+    private Vector3 startPosition;
+    private float fixedYPosition; // Locks Y position
+    public float throwForce = 5f; // Modify this for a harder throw
 
     void Start()
     {
-        // Get the Rigidbody component from the ball
         rb = GetComponent<Rigidbody>();
+        fixedYPosition = transform.position.y;
     }
 
     void Update()
     {
-        // Detect mouse click to start dragging the ball
-        if (Input.GetMouseButtonDown(0)) // 0 = Left Mouse Button
+        if (Input.GetMouseButtonDown(0))
         {
             StartDrag();
         }
 
-        // Detect mouse movement to drag the ball
         if (isDragging)
         {
             DragBall();
         }
 
-        // Detect mouse release to throw the ball
-        if (Input.GetMouseButtonUp(0)) // 0 = Left Mouse Button
+        if (Input.GetMouseButtonUp(0))
         {
             ReleaseBall();
         }
     }
 
-    // Start dragging the ball when the mouse is clicked
     void StartDrag()
     {
         isDragging = true;
-        startPosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)); // Convert mouse position to world space
-        mouseOffset = startPosition - transform.position;  // Set an offset so the ball doesn't jump to the mouse position
+        startPosition = transform.position;
+        rb.isKinematic = true; // Disable physics while dragging
     }
 
-    // While dragging, update the ball's position based on the mouse position
     void DragBall()
     {
-        Vector3 currentMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10));
-        transform.position = currentMousePosition - mouseOffset; // Update the ball's position
+        // Get mouse position in world space, using depth of 10 units from camera
+        Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10f));
+
+        // Only allow X and Z movement, keep Y fixed
+        transform.position = new Vector3(mouseWorld.x, fixedYPosition, mouseWorld.z);
     }
 
-    // Release the ball and apply a force in the direction the ball is facing
     void ReleaseBall()
     {
         isDragging = false;
-        Vector3 direction = transform.position - startPosition; // The direction the ball is being thrown
-        rb.isKinematic = false; // Enable physics again (in case it was set to kinematic for dragging)
-        rb.AddForce(direction * throwForce, ForceMode.Impulse); // Apply the throw force
+        rb.isKinematic = false;
+
+        // Calculate throw direction only in X/Z plane
+        Vector3 direction = new Vector3(
+            transform.position.x - startPosition.x,
+            0f, // No vertical force
+            transform.position.z - startPosition.z
+        );
+
+        float clampedSpeed = Mathf.Clamp(direction.magnitude, 0, throwForce);
+        rb.AddForce(direction.normalized * clampedSpeed, ForceMode.Impulse);
     }
 }
