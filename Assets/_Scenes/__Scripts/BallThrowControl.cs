@@ -4,9 +4,10 @@ public class BallThrowControl : MonoBehaviour
 {
     private Rigidbody rb;
     private bool isDragging = false;
+    private bool hasBeenReleased = false; // Ensure the player can only throw once
     private Vector3 startPosition;
-    private float fixedYPosition; // Locks Y position
-    public float throwForce = 5f; // Modify this for a harder throw
+    private float fixedYPosition;
+    public float throwForce = 5f;
 
     void Start()
     {
@@ -16,7 +17,8 @@ public class BallThrowControl : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        // Only allow drag if mouse is down, and ball hasn’t been released yet
+        if (Input.GetMouseButtonDown(0) && !hasBeenReleased)
         {
             StartDrag();
         }
@@ -26,7 +28,7 @@ public class BallThrowControl : MonoBehaviour
             DragBall();
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && isDragging)
         {
             ReleaseBall();
         }
@@ -36,27 +38,29 @@ public class BallThrowControl : MonoBehaviour
     {
         isDragging = true;
         startPosition = transform.position;
-        rb.isKinematic = true; // Disable physics while dragging
+        rb.isKinematic = true;
     }
 
     void DragBall()
     {
-        // Get mouse position in world space, using depth of 10 units from camera
         Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10f));
 
-        // Only allow X and Z movement, keep Y fixed
-        transform.position = new Vector3(mouseWorld.x, fixedYPosition, mouseWorld.z);
+        // Prevent dragging into negative X direction
+        float clampedX = Mathf.Max(mouseWorld.x, startPosition.x);
+
+        // Allow only X+ and Z movement, and lock Y
+        transform.position = new Vector3(clampedX, fixedYPosition, mouseWorld.z);
     }
 
     void ReleaseBall()
     {
         isDragging = false;
+        hasBeenReleased = true; // Prevent dragging again
         rb.isKinematic = false;
 
-        // Calculate throw direction only in X/Z plane
         Vector3 direction = new Vector3(
             transform.position.x - startPosition.x,
-            0f, // No vertical force
+            0f,
             transform.position.z - startPosition.z
         );
 
