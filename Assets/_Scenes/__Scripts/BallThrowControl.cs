@@ -2,15 +2,16 @@ using UnityEngine;
 
 public class BallThrowControl : MonoBehaviour
 {
+    public LevelManager levelManager; // Reference to LevelManager
+
     private Rigidbody rb;
     private bool isDragging = false;
-    private bool hasBeenReleased = false; // Ensure the player can only throw once
+    private bool hasBeenReleased = false;
     private Vector3 startPosition;
     private float fixedYPosition;
     public float throwForce = 5f;
 
-    // New variable to limit the drag distance
-    public float maxDragDistance = 0.075f;
+    public float maxDragDistance = 5f; // Maximum drag distance
 
     void Start()
     {
@@ -20,7 +21,6 @@ public class BallThrowControl : MonoBehaviour
 
     void Update()
     {
-        // Only allow drag if mouse is down, and ball hasn’t been released yet
         if (Input.GetMouseButtonDown(0) && !hasBeenReleased)
         {
             StartDrag();
@@ -48,37 +48,39 @@ public class BallThrowControl : MonoBehaviour
     {
         Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10f));
 
-        // Calculate the distance between the start position and the current mouse position
-        Vector3 dragVector = mouseWorld - startPosition;
+        // Calculate the direction vector from the start position to the mouse position
+        Vector3 dragDirection = mouseWorld - startPosition;
 
-        // Limit the drag distance to the max drag distance
-        if (dragVector.magnitude > maxDragDistance)
+        // Limit the dragging distance to the maxDragDistance
+        if (dragDirection.magnitude > maxDragDistance)
         {
-            dragVector = dragVector.normalized * maxDragDistance;
+            dragDirection = dragDirection.normalized * maxDragDistance; // Clamp to max distance
         }
 
-        // Prevent dragging into negative X direction
-        float clampedX = Mathf.Max(dragVector.x, 0f);
-
-        // Allow only X+ and Z movement, and lock Y
-        transform.position = startPosition + new Vector3(clampedX, 0f, dragVector.z);
+        // Set the ball position based on the clamped drag direction
+        transform.position = new Vector3(startPosition.x + dragDirection.x, fixedYPosition, startPosition.z + dragDirection.z);
     }
 
     void ReleaseBall()
     {
         isDragging = false;
-        hasBeenReleased = true; // Prevent dragging again
+        hasBeenReleased = true;
         rb.isKinematic = false;
 
-        // Calculate the direction and speed to apply force
-        Vector3 direction = new Vector3(
-            transform.position.x - startPosition.x,
-            0f,
-            transform.position.z - startPosition.z
-        );
-
-        // Clamp the speed to ensure it's within a reasonable range
+        // Calculate the throw direction
+        Vector3 direction = new Vector3(transform.position.x - startPosition.x, 0f, transform.position.z - startPosition.z);
         float clampedSpeed = Mathf.Clamp(direction.magnitude, 0, throwForce);
+
+        // Add force to the ball based on the drag distance
         rb.AddForce(direction.normalized * clampedSpeed, ForceMode.Impulse);
+
+        if (levelManager != null)
+        {
+            levelManager.CheckLevelCompletion(); // Check level completion after releasing the ball
+        }
+        else
+        {
+            Debug.LogError("LevelManager reference is missing!");
+        }
     }
 }
