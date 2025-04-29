@@ -13,10 +13,16 @@ public class BallThrowControl : MonoBehaviour
 
     public float maxDragDistance = 5f; // Maximum drag distance
 
+    // Variable to store the initial position (it could be set from LevelManager or automatically at the start)
+    private Vector3 initialPosition;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         fixedYPosition = transform.position.y;
+
+        // Set initial position to the current position when the game starts
+        initialPosition = transform.position;
     }
 
     void Update()
@@ -83,4 +89,28 @@ public class BallThrowControl : MonoBehaviour
             Debug.LogError("LevelManager reference is missing!");
         }
     }
+
+    // Method to reset the ball position when a new level is loaded
+    public void ResetBall()
+    {
+    Vector3 resetPosition = new Vector3(-14f, -9f, 0f); // HARDCODED reset position
+
+    // Reset position to the manually specified position
+    transform.position = resetPosition;
+    fixedYPosition = resetPosition.y;
+
+    // Reset velocity and angular velocity
+    rb.velocity = Vector3.zero;
+    rb.angularVelocity = Vector3.zero;
+
+    // If you want the ball to be kinematic before drag starts
+    rb.isKinematic = true;
+
+    // Reset the drag and release state
+    startPosition = resetPosition;
+    isDragging = false;
+    hasBeenReleased = false;
+    }
+
+
 }

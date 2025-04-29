@@ -268,8 +268,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b5c7bfb9e5e81c408cbd87a95ec14c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throwForce: 10
   levelManager: {fileID: 729110990}
+  throwForce: 10
+  maxDragDistance: 5
 --- !u!1 &163644143
 GameObject:
   m_ObjectHideFlags: 0
@@ -770,8 +771,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level1Prefab: {fileID: 7781162907992435924, guid: d99cf5ea78fa3e844a8af1663338380b, type: 3}
-  level2Prefab: {fileID: 0}
+  level2Prefab: {fileID: 6938311536440839852, guid: 8d4eaa954df8ba34d81faafb4c2bb731, type: 3}
   level3Prefab: {fileID: 0}
+  ballThrowControl: {fileID: 143280823}
 --- !u!4 &729110991
 Transform:
   m_ObjectHideFlags: 0
@@ -1168,7 +1170,7 @@ SceneRoots:
   - {fileID: 163644146}
   - {fileID: 1766179040}
   - {fileID: 515183733}
-  - {fileID: 143280821}
   - {fileID: 766228110}
   - {fileID: 658206877}
   - {fileID: 729110991}
+  - {fileID: 143280821}

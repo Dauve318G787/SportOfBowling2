@@ -10,18 +10,15 @@ public class LevelManager : MonoBehaviour
     private int currentLevelIndex = 1; // Current level index (1 = level 1, etc.)
     private BowlingPin[] allPins;  // Array to store all pins in the current level
 
+    public BallThrowControl ballThrowControl; // Reference to the BallThrowControl
+
     void Start()
     {
         LoadLevel(currentLevelIndex);
         InvokeRepeating("CheckLevelCompletion", 1f, 1f); // Check level completion every second (starting after 1 second)
     }
 
-    void Update()
-    {
-        // Optional: You could also check for a manual completion here, but the InvokeRepeating will do it every second
-    }
-
-    // Load the specific level (level 1, 2, etc.)
+    // Load the specific level
     public void LoadLevel(int level)
     {
         // Destroy the current level if it exists
@@ -45,6 +42,13 @@ public class LevelManager : MonoBehaviour
             default:
                 Debug.LogError("Invalid level number");
                 break;
+        }
+
+        // Call ResetBall() after the level has loaded
+        if (ballThrowControl != null)
+        {
+            ballThrowControl.ResetBall();
+            Debug.Log("Resetting Ball Position...");
         }
 
         // Get all BowlingPin objects in the current level
@@ -85,7 +89,7 @@ public class LevelManager : MonoBehaviour
         if (currentLevelIndex > 3)
         {
             Debug.Log("Game Complete!");
-            // Optionally, show a victory screen or restart the game
+            // TODO load restart screen
         }
         else
         {
