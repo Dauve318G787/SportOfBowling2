@@ -9,7 +9,7 @@ public class BallThrowControl : MonoBehaviour
     private bool hasBeenReleased = false;
     private Vector3 startPosition;
     private float fixedYPosition;
-    public float throwForce = 5f;
+    public float throwForce = 10f;
 
     public float maxDragDistance = 5f; // Maximum drag distance
 

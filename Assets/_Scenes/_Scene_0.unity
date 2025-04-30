@@ -772,7 +772,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level1Prefab: {fileID: 7781162907992435924, guid: d99cf5ea78fa3e844a8af1663338380b, type: 3}
   level2Prefab: {fileID: 6938311536440839852, guid: 8d4eaa954df8ba34d81faafb4c2bb731, type: 3}
-  level3Prefab: {fileID: 0}
+  level3Prefab: {fileID: 1540417382951902833, guid: b87db4f794620f54794e7b8aee792cae, type: 3}
   ballThrowControl: {fileID: 143280823}
 --- !u!4 &729110991
 Transform:
