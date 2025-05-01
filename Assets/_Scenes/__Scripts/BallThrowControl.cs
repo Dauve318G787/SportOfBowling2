@@ -59,7 +59,7 @@ public class BallThrowControl : MonoBehaviour
     // Method to reset the ball position when a new level is loaded
     public void ResetBall()
     {
-        Vector3 resetPosition = new Vector3(-14f, -9f, 0f); // HARDCODED reset position
+        Vector3 resetPosition = new Vector3(-14f, -8.5f, 0f); // HARDCODED reset position
 
         // Reset position to the manually specified position
         transform.position = resetPosition;

@@ -2,15 +2,11 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    
     // Level prefabs
     public GameObject level1Prefab;
     public GameObject level2Prefab;
     public GameObject level3Prefab;
-
     public GameObject level4Prefab;
-
-    public GameObject level5Prefab;
 
     private GameObject currentLevel;
     private int currentLevelIndex = 1; // Current level index (1 = level 1, etc.)
@@ -26,47 +22,50 @@ public class LevelManager : MonoBehaviour
 
     // Load the specific level
     public void LoadLevel(int level)
-{
-    // Destroy the current level if it exists
-    if (currentLevel != null)
     {
-        Destroy(currentLevel);
+        // Destroy the current level if it exists
+        if (currentLevel != null)
+        {
+            Destroy(currentLevel);
+        }
+
+        // Instantiate the new level based on the level number
+        switch (level)
+        {
+            case 1:
+                currentLevel = Instantiate(level1Prefab);
+                break;
+            case 2:
+                currentLevel = Instantiate(level2Prefab);
+                break;
+            case 3:
+                currentLevel = Instantiate(level3Prefab);
+                break;
+            case 4:
+                currentLevel = Instantiate(level4Prefab);
+                break;
+            default:
+                Debug.LogError("Invalid level number");
+                break;
+        }
+
+        // If level 1 is loaded, increase the throw force by 10
+        if (level == 1 && ballThrowControl != null)
+        {
+            ballThrowControl.throwForce += 10f; // Increase throw force
+            Debug.Log("Throw force increased to: " + ballThrowControl.throwForce);
+        }
+
+        // Call ResetBall() after the level has loaded
+        if (ballThrowControl != null)
+        {
+            ballThrowControl.ResetBall();
+            Debug.Log("Resetting Ball Position...");
+        }
+
+        // Get all BowlingPin objects in the current level
+        allPins = FindObjectsOfType<BowlingPin>();
     }
-
-    // Instantiate the new level based on the level number
-    switch (level)
-    {
-        case 1:
-            currentLevel = Instantiate(level1Prefab);
-            break;
-        case 2:
-            currentLevel = Instantiate(level2Prefab);
-            break;
-        case 3:
-            currentLevel = Instantiate(level3Prefab);
-            break;
-        case 4:
-            currentLevel = Instantiate(level4Prefab);  // Add case for level 4
-            break;
-        case 5:
-            currentLevel = Instantiate(level5Prefab);  // Also handle level 5 if necessary
-            break;
-        default:
-            Debug.LogError("Invalid level number");
-            break;
-    }
-
-    // Call ResetBall() after the level has loaded
-    if (ballThrowControl != null)
-    {
-        ballThrowControl.ResetBall();
-        Debug.Log("Resetting Ball Position...");
-    }
-
-    // Get all BowlingPin objects in the current level
-    allPins = FindObjectsOfType<BowlingPin>();
-}
-
 
     // Check if all pins have fallen
     private bool AreAllPinsDown()
@@ -99,14 +98,13 @@ public class LevelManager : MonoBehaviour
     {
         currentLevelIndex++;
 
-        if (currentLevelIndex > 5)
+        // If level index exceeds 4, reset to 1 to loop the levels
+        if (currentLevelIndex > 4)
         {
-            Debug.Log("Game Complete!");
-            // TODO load restart screen
+            currentLevelIndex = 1;  // Loop back to level 1
+            Debug.Log("Looping back to Level 1!");
         }
-        else
-        {
-            LoadLevel(currentLevelIndex); // Load the next level
-        }
+
+        LoadLevel(currentLevelIndex); // Load the next level or loop back to 1
     }
 }
