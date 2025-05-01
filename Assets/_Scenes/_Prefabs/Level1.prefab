@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 32580917e8f17324facb9b5d2fd4e1d0, type: 2}
+  - {fileID: 2100000, guid: ded5266788d262f47ad40dc56aafc996, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a7ce18071d658468c97d2d2f75e0a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasScored: 0
 --- !u!1 &2306864382082860159
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,7 +217,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 32580917e8f17324facb9b5d2fd4e1d0, type: 2}
+  - {fileID: 2100000, guid: ded5266788d262f47ad40dc56aafc996, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -298,6 +299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a7ce18071d658468c97d2d2f75e0a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasScored: 0
 --- !u!1 &6064545458842137926
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,7 +367,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 32580917e8f17324facb9b5d2fd4e1d0, type: 2}
+  - {fileID: 2100000, guid: ded5266788d262f47ad40dc56aafc996, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -447,6 +449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a7ce18071d658468c97d2d2f75e0a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasScored: 0
 --- !u!1 &7781162907992435924
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,7 +552,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 32580917e8f17324facb9b5d2fd4e1d0, type: 2}
+  - {fileID: 2100000, guid: ded5266788d262f47ad40dc56aafc996, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -631,3 +634,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a7ce18071d658468c97d2d2f75e0a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasScored: 0
