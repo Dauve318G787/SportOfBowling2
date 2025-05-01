@@ -2,9 +2,15 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    public GameObject level1Prefab; // Prefab for level 1
-    public GameObject level2Prefab; // Prefab for level 2
-    public GameObject level3Prefab; // Prefab for level 3
+    
+    // Level prefabs
+    public GameObject level1Prefab;
+    public GameObject level2Prefab;
+    public GameObject level3Prefab;
+
+    public GameObject level4Prefab;
+
+    public GameObject level5Prefab;
 
     private GameObject currentLevel;
     private int currentLevelIndex = 1; // Current level index (1 = level 1, etc.)
@@ -86,7 +92,7 @@ public class LevelManager : MonoBehaviour
     {
         currentLevelIndex++;
 
-        if (currentLevelIndex > 3)
+        if (currentLevelIndex > 5)
         {
             Debug.Log("Game Complete!");
             // TODO load restart screen
