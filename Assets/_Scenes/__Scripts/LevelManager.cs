@@ -26,40 +26,47 @@ public class LevelManager : MonoBehaviour
 
     // Load the specific level
     public void LoadLevel(int level)
+{
+    // Destroy the current level if it exists
+    if (currentLevel != null)
     {
-        // Destroy the current level if it exists
-        if (currentLevel != null)
-        {
-            Destroy(currentLevel);
-        }
-
-        // Instantiate the new level based on the level number
-        switch (level)
-        {
-            case 1:
-                currentLevel = Instantiate(level1Prefab);
-                break;
-            case 2:
-                currentLevel = Instantiate(level2Prefab);
-                break;
-            case 3:
-                currentLevel = Instantiate(level3Prefab);
-                break;
-            default:
-                Debug.LogError("Invalid level number");
-                break;
-        }
-
-        // Call ResetBall() after the level has loaded
-        if (ballThrowControl != null)
-        {
-            ballThrowControl.ResetBall();
-            Debug.Log("Resetting Ball Position...");
-        }
-
-        // Get all BowlingPin objects in the current level
-        allPins = FindObjectsOfType<BowlingPin>();
+        Destroy(currentLevel);
     }
+
+    // Instantiate the new level based on the level number
+    switch (level)
+    {
+        case 1:
+            currentLevel = Instantiate(level1Prefab);
+            break;
+        case 2:
+            currentLevel = Instantiate(level2Prefab);
+            break;
+        case 3:
+            currentLevel = Instantiate(level3Prefab);
+            break;
+        case 4:
+            currentLevel = Instantiate(level4Prefab);  // Add case for level 4
+            break;
+        case 5:
+            currentLevel = Instantiate(level5Prefab);  // Also handle level 5 if necessary
+            break;
+        default:
+            Debug.LogError("Invalid level number");
+            break;
+    }
+
+    // Call ResetBall() after the level has loaded
+    if (ballThrowControl != null)
+    {
+        ballThrowControl.ResetBall();
+        Debug.Log("Resetting Ball Position...");
+    }
+
+    // Get all BowlingPin objects in the current level
+    allPins = FindObjectsOfType<BowlingPin>();
+}
+
 
     // Check if all pins have fallen
     private bool AreAllPinsDown()
