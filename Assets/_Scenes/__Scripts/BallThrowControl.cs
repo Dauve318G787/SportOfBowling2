@@ -1,18 +1,18 @@
+// MODULE PURPOSE: To control the movement of the bowling ball
+
 using UnityEngine;
 
 public class BallThrowControl : MonoBehaviour
 {
-    public LevelManager levelManager; // Reference to LevelManager
+    public LevelManager levelManager; // Reference to LevelManager script
 
     private Rigidbody rb;
     private bool hasBeenReleased = false; // Whether the ball has been released or not
     private Vector3 startPosition; // Store the ball's initial position
-    private float fixedYPosition; // Store the Y position to keep it constant
-    public float throwForce = 20f; // Force applied when throwing the ball
+    private float fixedYPosition; // Store the Y position to keep it constant (ptherwise ball can sink through level)
+    public float throwForce = 20f; // Force applied when throwing the ball (THIS GETS INCREASED AS GAME PROGRESSES)
 
-    public float maxDragDistance = 5f; // Maximum drag distance (Not used since dragging is disabled)
-
-    // Variable to store the initial position (it could be set from LevelManager or automatically at the start)
+    // Variable to store the initial position
     private Vector3 initialPosition;
 
     void Start()
@@ -37,11 +37,11 @@ public class BallThrowControl : MonoBehaviour
     void ReleaseBall()
     {
         hasBeenReleased = true;
-        rb.isKinematic = false; // Allow physics to control the ball now
+        rb.isKinematic = false; // Allow physics to control the ball after release
 
         // Calculate the throw direction (we want to launch it forward along the x-axis or z-axis)
-        Vector3 direction = new Vector3(1, 0, 0); // Launch forward along the X axis (modify this if needed)
-        direction.Normalize(); // Ensure the direction is normalized (unit vector)
+        Vector3 direction = new Vector3(1, 0, 0); // Launch forward along the X axis
+        direction.Normalize(); // Ensure the direction is normalized
 
         // Add force to the ball based on the throwForce
         rb.AddForce(direction * throwForce, ForceMode.Impulse);

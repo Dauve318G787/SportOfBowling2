@@ -1,3 +1,5 @@
+// MODULE PURPOSE: To control the movement of the bowling pins.
+
 using UnityEngine;
 
 public class BowlingPin : MonoBehaviour

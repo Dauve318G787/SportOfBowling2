@@ -1,3 +1,5 @@
+// MODULE PURPOSE: To control the flow of levels in the game.
+
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
